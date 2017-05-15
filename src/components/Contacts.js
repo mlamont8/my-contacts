@@ -1,6 +1,7 @@
 import React from 'react';
 import {Table, Col, Form, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import Rebase  from 're-base';
+import Rebase  from 're-base'
+import ModalView from './ModalView';
 
 
 // Initialize Re-base for Firebase Database
@@ -20,11 +21,18 @@ class Contacts extends React.Component {
       name: '',
       email: '',
       phone: '',
-      address: ''
+      address: '',
+      showModal: false,
+      currentContact: {},
+      currentIndex: ""
+
     };
     // make sure the "this" variable keeps its scope
     this.changeValue = this.changeValue.bind(this);
     this.addContact = this.addContact.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+
   }
 
   componentDidMount() {
@@ -89,6 +97,20 @@ onUpdate(contact){
 console.log(contact)
 }
 
+closeModal() {
+  this.setState({ showModal: false });
+}
+
+
+  openModal(contact, idx) {
+    console.log(contact, idx)
+      this.setState({
+        showModal: true,
+        currentContact: contact,
+        currentIndex: idx
+       });
+  }
+
   render() {
 
     return (
@@ -107,7 +129,7 @@ console.log(contact)
  <tbody>
    {this.state.contacts.map((data, index) => {
      return (
-       <tr key={data.key} onClick={this.onUpdate.bind(this, data)}>
+       <tr key={data.key} onClick={this.openModal.bind(this, data, index)}>
          <td>Avatar</td>
          <td>{data.name}</td>
          <td>{data.email}</td>
@@ -187,6 +209,15 @@ console.log(contact)
 </FormGroup>
 
 </Form>
+
+<ModalView
+  currentContact={this.state.currentContact}
+  currentIndex={this.state.currentIndex}
+  showModal={this.state.showModal}
+  closeModal={this.closeModal}
+
+/>
+
 </div>
     );
   }
