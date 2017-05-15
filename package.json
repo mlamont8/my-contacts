@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "re-base": "^2.7.1",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-sidebar": "^2.3.2"
   },
   "devDependencies": {
     "node-sass-chokidar": "0.0.1",
