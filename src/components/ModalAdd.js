@@ -7,7 +7,7 @@ class ModalAdd extends React.Component {
   render() {
     return (
       <Modal
-        show={this.props.showModal}
+        show={this.props.deleteContact}
         onHide={this.props.closeModal}
         >
          <Modal.Header closeButton>
@@ -24,7 +24,7 @@ class ModalAdd extends React.Component {
            <AddContact
              closeModal={this.props.closeModal}
            />
-           
+
        </Modal.Body>
          <Modal.Footer>
            <Button onClick={this.props.closeModal}>Close</Button>

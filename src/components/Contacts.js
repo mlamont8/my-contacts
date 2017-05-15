@@ -3,6 +3,7 @@ import {Table, Col, Row } from 'react-bootstrap';
 import Rebase  from 're-base'
 import ModalUpdate from './ModalUpdate';
 import ModalAdd from './ModalAdd';
+import DeleteContact from './DeleteContact';
 import FontAwesome from 'react-fontawesome';
 
 
@@ -27,7 +28,8 @@ class Contacts extends React.Component {
       showModal: false,
       addContact: false,
       currentContact: {},
-      currentIndex: ""
+      currentIndex: "",
+      deleteContact: false
 
     };
     // make sure the "this" variable keeps its scope
@@ -35,6 +37,8 @@ class Contacts extends React.Component {
     this.closeAdd = this.closeAdd.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.deleteAlertShow  = this.deleteAlertShow.bind(this);
+    this.deleteAlertDismiss  = this.deleteAlertDismiss.bind(this);
 
   }
 
@@ -86,6 +90,18 @@ closeAdd() {
        });
   }
 
+  deleteAlertDismiss() {
+    this.setState({deleteContact: false});
+  }
+
+  deleteAlertShow(contact, idx) {
+    this.setState({
+      deleteContact: true,
+      currentContact: contact,
+      currentIndex: idx
+    });
+  }
+
   render() {
 
     return (
@@ -107,17 +123,36 @@ closeAdd() {
      <th>Full Name</th>
      <th>Email Address</th>
      <th>Phone Number</th>
+     <th></th>
 
    </tr>
  </thead>
  <tbody>
    {this.state.contacts.map((data, index) => {
      return (
-       <tr key={data.key} onClick={this.openModal.bind(this, data, index)}>
+       <tr key={data.key}
+         >
          <td>Avatar</td>
          <td>{data.name}</td>
          <td>{data.email}</td>
          <td>{data.phone}</td>
+         <td>
+
+           <FontAwesome
+             onClick={this.deleteAlertShow.bind(this,data, index)}
+             className='pull-right fa-add'
+             name='trash'
+             fixedWidth={true}
+             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+             />
+             <FontAwesome
+               onClick={this.openModal.bind(this, data, index)}
+               className='pull-right fa-add'
+               name='pencil'
+               fixedWidth={true}
+               style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+               />
+         </td>
        </tr>
      )
    })}
@@ -138,6 +173,15 @@ closeAdd() {
 <ModalAdd
   showModal={this.state.addContact}
   closeModal={this.closeAdd}
+
+/>
+
+<DeleteContact
+  currentContact={this.state.currentContact}
+  deleteContact={this.state.deleteContact}
+  deleteAlertDismiss={this.deleteAlertDismiss}
+  contacts={this.state.contacts}
+  index={this.state.currentIndex}
 
 />
 
