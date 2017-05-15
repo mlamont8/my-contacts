@@ -1,5 +1,5 @@
 $font-stack:  'Roboto', sans-serif;
-$main-color: 'rgb(3, 169, 244)';
+$main-color: #03A9F4;
 
 body {
     font: 100% $font-stack;
@@ -7,5 +7,15 @@ body {
 
 .App {
   text-align: center;
+
+}
+
+.modal-header {
+  height: 200px;
+}
+.modal-title {
+  color: #ffffff;
+  background-color: $main-color;
+  
 
 }

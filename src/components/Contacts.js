@@ -1,7 +1,9 @@
 import React from 'react';
-import {Table, Col, Form, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {Table, Col, Row } from 'react-bootstrap';
 import Rebase  from 're-base'
-import ModalView from './ModalView';
+import ModalUpdate from './ModalUpdate';
+import ModalAdd from './ModalAdd';
+import FontAwesome from 'react-fontawesome';
 
 
 // Initialize Re-base for Firebase Database
@@ -23,13 +25,14 @@ class Contacts extends React.Component {
       phone: '',
       address: '',
       showModal: false,
+      addContact: false,
       currentContact: {},
       currentIndex: ""
 
     };
     // make sure the "this" variable keeps its scope
-    this.changeValue = this.changeValue.bind(this);
     this.addContact = this.addContact.bind(this);
+    this.closeAdd = this.closeAdd.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
 
@@ -52,45 +55,10 @@ componentWillUnmount(){
 base.removeBinding(this.ref);
 }
 
-changeValue(e) {
-  const name = e.target.name;
-  const value = e.target.value;
-  console.log(e.target.name)
+addContact(){
   this.setState({
-    [name]: value
+    addContact: true
   })
-}
-
-addContact(e){
-  e.preventDefault();
-let newContact = {
-  name: this.state.name,
-  email: this.state.email,
-  phone: this.state.phone,
-  address: this.state.address
-}
-this.setState({
-  name: '',
-  email: '',
-  phone: '',
-  address: ''
-})
-
- base.push('contacts', {
-data: {
-    name: newContact.name,
-    email: newContact.email,
-    phone: newContact.phone,
-    address: newContact.address
-},
-then(err){
-if(!err){
-
-  console.log('Successfully Added');
-}
-}
-});
-
 }
 
 onUpdate(contact){
@@ -98,9 +66,16 @@ console.log(contact)
 }
 
 closeModal() {
-  this.setState({ showModal: false });
+  this.setState({
+    showModal: false,
+   });
 }
 
+closeAdd() {
+  this.setState({
+    addContact: false
+   });
+}
 
   openModal(contact, idx) {
     console.log(contact, idx)
@@ -116,6 +91,15 @@ closeModal() {
     return (
       <div>
   <Col md={10} mdOffset={1}>
+    <Row>
+    <FontAwesome
+      onClick={this.addContact}
+      className='pull-right fa-add'
+      name='plus-circle'
+      size='3x'
+      style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+      />
+</Row>
       <Table responsive striped bordered condensed hover>
  <thead>
    <tr>
@@ -142,79 +126,18 @@ closeModal() {
 </Table>
 </Col>
 
-<Form horizontal onSubmit={this.addContact}>
 
-  <FormGroup controlId="formName">
-    <Col componentClass={ControlLabel} sm={2}>
-      Full Name
-    </Col>
-    <Col sm={10}>
-      <FormControl
-        type="text"
-        placeholder="Full Name"
-        name="name"
-        value={this.state.name}
-        onChange={this.changeValue}
-      />
-    </Col>
-  </FormGroup>
-
-  <FormGroup controlId="formName">
-    <Col componentClass={ControlLabel} sm={2}>
-      Email Address
-    </Col>
-    <Col sm={10}>
-      <FormControl
-        type="text"
-        placeholder="Email Address"
-        name="email"
-        value={this.state.email}
-        onChange={this.changeValue}
-      />
-    </Col>
-  </FormGroup>  <FormGroup controlId="formName">
-      <Col componentClass={ControlLabel} sm={2}>
-        Phone Number
-      </Col>
-      <Col sm={10}>
-        <FormControl
-          type="text"
-          placeholder="Phone Number"
-          name="phone"
-          value={this.state.phone}
-          onChange={this.changeValue}
-        />
-      </Col>
-    </FormGroup>  <FormGroup controlId="formName">
-        <Col componentClass={ControlLabel} sm={2}>
-          Address
-        </Col>
-        <Col sm={10}>
-          <FormControl
-            type="text"
-            placeholder="Address"
-            name="address"
-            value={this.state.address}
-            onChange={this.changeValue}
-          />
-        </Col>
-      </FormGroup>
-
-  <FormGroup>
-  <Col smOffset={2} sm={10}>
-    <Button type="submit">
-      Submit
-    </Button>
-  </Col>
-</FormGroup>
-
-</Form>
-
-<ModalView
+<ModalUpdate
   currentContact={this.state.currentContact}
   currentIndex={this.state.currentIndex}
   showModal={this.state.showModal}
   closeModal={this.closeModal}
+
+/>
+
+<ModalAdd
+  showModal={this.state.addContact}
+  closeModal={this.closeAdd}
 
 />
 
