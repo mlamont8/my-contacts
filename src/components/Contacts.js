@@ -55,35 +55,38 @@ changeValue(e) {
 
 addContact(e){
   e.preventDefault();
-
-  // let newContact = {
-  //   name: this.state.name,
-  //   email: this.state.email,
-  //   phone: this.state.phone,
-  //   address: this.state.address
-  // }
-
-//   this.setState({
-//   contacts: this.state.contacts.concat([newContact]),
-//
-// });
+let newContact = {
+  name: this.state.name,
+  email: this.state.email,
+  phone: this.state.phone,
+  address: this.state.address
+}
+this.setState({
+  name: '',
+  email: '',
+  phone: '',
+  address: ''
+})
 
  base.push('contacts', {
 data: {
-    name: this.state.name,
-    email: this.state.email,
-    phone: this.state.phone,
-    address: this.state.address
+    name: newContact.name,
+    email: newContact.email,
+    phone: newContact.phone,
+    address: newContact.address
 },
 then(err){
 if(!err){
+
   console.log('Successfully Added');
 }
 }
 });
-//available immediately, you don't have to wait for the callback to be called
- // const generatedKey = Reference.key;
 
+}
+
+onUpdate(contact){
+console.log(contact)
 }
 
   render() {
@@ -104,7 +107,7 @@ if(!err){
  <tbody>
    {this.state.contacts.map((data, index) => {
      return (
-       <tr key={data.key}>
+       <tr key={data.key} onClick={this.onUpdate.bind(this, data)}>
          <td>Avatar</td>
          <td>{data.name}</td>
          <td>{data.email}</td>
