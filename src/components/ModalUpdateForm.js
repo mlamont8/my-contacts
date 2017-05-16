@@ -1,24 +1,45 @@
 import React from 'react';
 import {Form, FormGroup, ControlLabel, FormControl, Button} from 'react-bootstrap';
 
-class ModalForm extends React.Component {
+class ModalUpdateForm extends React.Component {
 
-// constructor(props) {
-//   super(props);
-//   this.state = {
-//     name: '',
-//     email: '',
-//     phone: '',
-//     address: ''
-//   };
-// }
-//
-// }
+changeValue: (e: any) => void;
 
-changeValue(e) {
-  const name = e.target.name;
-  const value = e.target.value;
-  console.log(e.target.name)
+constructor(props) {
+  super(props);
+  this.state = {
+    contacts: [],
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    usstate: '',
+    zip: ''
+  }
+
+this.changeValue=this.changeValue.bind(this);
+}
+componentWillReceiveProps(nextProps) {
+  // Check to prevent an unneeded render
+  if (nextProps.name !== this.state.name) {
+    this.setState({
+      name: this.state.name,
+      email: this.state.email,
+      phone: this.state.phone,
+      address: this.state.address,
+      city: this.state.city,
+      usstate: this.state.usstate,
+      zip: this.state.zip
+
+    });
+  }
+}
+
+changeValue(e: any) {
+  let name = e.target.name;
+  let value = e.target.value;
+  console.log(e.target.name, e.target.value)
   this.setState({
     [name]: value
   })
@@ -55,6 +76,38 @@ changeValue(e) {
 // });
 //
 // }
+
+updateContact() {
+
+//    e.preventDefault();
+  let newContact = {
+    name: this.state.name,
+    email: this.state.email,
+    phone: this.state.phone,
+    address: this.state.address,
+    city: this.state.city,
+    usstate: this.state.usstate,
+    zip: this.state.zip
+  }
+  this.setState({
+
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      usstate: '',
+      zip: ''
+    })
+
+
+  const array = this.props.contacts
+  const index = this.props.index
+  array.splice(index, 1);
+  this.setState({contacts: array });
+  array.push(newContact)
+
+}
 
   render() {
     return (
@@ -134,7 +187,7 @@ changeValue(e) {
   </FormGroup>
 
 
-  <Button type="submit" onClick={this.props.closeModal}>
+  <Button type="submit" onClick={this.updateContact}>
   Submit
 </Button>
   </Form>
@@ -143,4 +196,4 @@ changeValue(e) {
 
 }
 
-export default ModalForm;
+export default ModalUpdateForm;

@@ -1,21 +1,47 @@
 $font-stack:  'Roboto', sans-serif;
 $main-color: #03A9F4;
+$accent: #E91E63;
 
 body {
     font: 100% $font-stack;
 }
 
 .App {
-  text-align: center;
-
-}
+  text-align: center;}
 
 .modal-header {
   height: 200px;
 }
-.modal-title {
-  color: #ffffff;
-  background-color: $main-color;
-  
 
+.modal-footer,
+.modal-header{
+  background-color: $main-color;
+  min-height: 50px;
+}
+
+nav.navbar.navbar-default {
+  background-color: $main-color;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff !important;
+}
+.fa-plus-circle {
+    color: $accent;
+}
+.tableRow {
+  background-color: $main-color;
+  color: #fff;
+  text-align: center;
+}
+.table td,
+.table th{
+   text-align: center;
+}
+.table{
+  border-top: 30px;
+}
+.fa-check-square-o,
+.fa-ban {
+  color: $accent;
 }

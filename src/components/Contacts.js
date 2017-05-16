@@ -1,10 +1,11 @@
 import React from 'react';
-import {Table, Col, Row } from 'react-bootstrap';
+import {Table, Col, Row, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Rebase  from 're-base'
-import ModalUpdate from './ModalUpdate';
+import ModalUpdateContainer from './ModalUpdateContainer';
 import ModalAdd from './ModalAdd';
 import DeleteContact from './DeleteContact';
 import FontAwesome from 'react-fontawesome';
+
 
 
 // Initialize Re-base for Firebase Database
@@ -14,6 +15,23 @@ const base = Rebase.createClass({
   databaseURL: "https://my-contacts-8f8a0.firebaseio.com",
   storageBucket: "my-contacts-8f8a0.appspot.com"
 });
+
+// Tooltip Comments
+const addContent = (
+  <Tooltip id="addContent"><strong>Add Contact</strong></Tooltip>
+);
+const deleteContent = (
+  <Tooltip id="deleteContent"><strong>Delete Content</strong></Tooltip>
+);
+
+const editContent = (
+  <Tooltip id="editContent"><strong>Edit Content</strong></Tooltip>
+);
+
+const moreInfo = (
+  <Tooltip id="MoreInfo"><strong>More Info</strong></Tooltip>
+);
+
 
 class Contacts extends React.Component {
 
@@ -25,6 +43,9 @@ class Contacts extends React.Component {
       email: '',
       phone: '',
       address: '',
+      city: '',
+      usstate: '',
+      zip: '',
       showModal: false,
       addContact: false,
       currentContact: {},
@@ -52,7 +73,9 @@ class Contacts extends React.Component {
       this.setState({loading:false})
     }
   })
-}
+
+  }
+
 
 componentWillUnmount(){
   // Remove Binding for Firebase when unmounted
@@ -103,11 +126,16 @@ closeAdd() {
   }
 
   render() {
+    //Lets sort for display
+const sorted= this.state.contacts.sort(function(a,b)
+{return (a.last_nom > b.last_nom) ? 1 :
+  ((b.name > a.name) ? -1 : 0);} );
 
     return (
       <div>
   <Col md={10} mdOffset={1}>
     <Row>
+      <OverlayTrigger placement="top" overlay={addContent}>
     <FontAwesome
       onClick={this.addContact}
       className='pull-right fa-add'
@@ -115,20 +143,33 @@ closeAdd() {
       size='3x'
       style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
       />
+    </OverlayTrigger>
 </Row>
       <Table responsive striped bordered condensed hover>
  <thead>
-   <tr>
-     <th>Avatar</th>
-     <th>Full Name</th>
-     <th>Email Address</th>
-     <th>Phone Number</th>
+   <tr className="tableRow">
+     <th></th>
+     <th>  <FontAwesome
+             className='fa-user'
+             name='user'
+             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+       />  Full Name</th>
+     <th>  <FontAwesome
+             className='fa-envelope'
+             name='envelope-o'
+             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+       />  Email Address</th>
+     <th>   <FontAwesome
+             className='fa-phone'
+             name='phone'
+             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+       />  Phone Number</th>
      <th></th>
 
    </tr>
  </thead>
  <tbody>
-   {this.state.contacts.map((data, index) => {
+   {sorted.map((data, index) => {
      return (
        <tr key={data.key}
          >
@@ -137,21 +178,33 @@ closeAdd() {
          <td>{data.email}</td>
          <td>{data.phone}</td>
          <td>
-
-           <FontAwesome
-             onClick={this.deleteAlertShow.bind(this,data, index)}
-             className='pull-right fa-add'
-             name='trash'
-             fixedWidth={true}
-             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
-             />
+           <OverlayTrigger placement="bottom" overlay={moreInfo}>
              <FontAwesome
                onClick={this.openModal.bind(this, data, index)}
-               className='pull-right fa-add'
+               className='fa-ellipsis-v'
+               name='ellipsis'
+               fixedWidth={true}
+               style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+               />
+             </OverlayTrigger>
+           <OverlayTrigger placement="bottom" overlay={editContent}>
+             <FontAwesome
+               onClick={this.openModal.bind(this, data, index)}
+               className='fa-pencil'
                name='pencil'
                fixedWidth={true}
                style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
                />
+             </OverlayTrigger>
+             <OverlayTrigger placement="bottom" overlay={deleteContent}>
+               <FontAwesome
+                 onClick={this.deleteAlertShow.bind(this,data, index)}
+                 className='fa-trash'
+                 name='trash'
+                 fixedWidth={true}
+                 style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+                 />
+               </OverlayTrigger>
          </td>
        </tr>
      )
@@ -162,19 +215,21 @@ closeAdd() {
 </Col>
 
 
-<ModalUpdate
+<ModalUpdateContainer
   currentContact={this.state.currentContact}
   currentIndex={this.state.currentIndex}
   showModal={this.state.showModal}
   closeModal={this.closeModal}
+  contacts={this.state.contacts}
+  index={this.state.currentIndex}
 
 />
 
-<ModalAdd
+{/* <ModalAdd
   showModal={this.state.addContact}
-  closeModal={this.closeAdd}
+  closeModal={this.closeModal}
 
-/>
+/> */}
 
 <DeleteContact
   currentContact={this.state.currentContact}
