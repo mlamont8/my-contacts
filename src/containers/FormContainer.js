@@ -1,9 +1,9 @@
 import React from 'react';
 import {Modal, Button, Row}  from 'react-bootstrap';
 //import ModalUpdateForm from './ModalUpdateForm';
-import AddContact from './AddContact';
+import ContactForm from '../components/ContactForm';
 
-class ModalUpdateContainer extends React.Component {
+class FormContainer extends React.Component {
 
   render() {
     return (
@@ -29,7 +29,7 @@ class ModalUpdateContainer extends React.Component {
              index={this.props.currentIndex}
            /> */}
 
-           <AddContact
+           <ContactForm
              currentContact={this.props.currentContact}
              currentIndex={this.props.currentIndex}
              contacts={this.props.contacts}
@@ -46,4 +46,4 @@ class ModalUpdateContainer extends React.Component {
 
 }
 
-export default ModalUpdateContainer;
+export default FormContainer;

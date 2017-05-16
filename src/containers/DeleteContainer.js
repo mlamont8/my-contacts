@@ -1,24 +1,63 @@
 import React from 'react';
 import {Modal, Button, Col, Row}  from 'react-bootstrap';
+import Rebase from 're-base';
 
+// Initialize Re-base for Firebase Database
+const base = Rebase.createClass({
+  apiKey: "AIzaSyAHbDANW8lODFkutIND_PyVVU4DVM_5Wok",
+  authDomain: "my-contacts-8f8a0.firebaseapp.com",
+  databaseURL: "https://my-contacts-8f8a0.firebaseio.com",
+  storageBucket: "my-contacts-8f8a0.appspot.com"
+});
 
-class deleteContact extends React.Component {
+class DeleteContainer extends React.Component {
 
 constructor(props) {
   super(props);
-
+  this.state = {
+    loading: true
+  };
   this.removeUser = this.removeUser.bind(this);
+}
 
+componentDidMount() {
+// Ref ensures Firebase is in sync with state
+this.ref = base.syncState('contacts', {
+  context: this,
+  state: 'contacts',
+  asArray: true,
+  then(){
+    this.setState({loading:false})
+  }
+})
+
+}
+
+
+componentWillUnmount(){
+// Remove Binding for Firebase when unmounted
+base.removeBinding(this.ref);
 }
 
   removeUser(){
       const array = this.props.contacts
       const index = this.props.index
       array.splice(index, 1);
+      //updates state
       this.setState({contacts: array });
-      this.props.deleteAlertDismiss = true;
+      //syncs with firebase
+      base.syncState(`contacts`, {
+        context: this,
+        state: 'contacts',
+        asArray: true,
+        then(){
+          this.setState({loading:false})
+          this.props.deleteAlertDismiss();
+        }
+});
+}
 
-  }
+
   render() {
 
     return (
@@ -57,4 +96,4 @@ constructor(props) {
 
 
 
-export default deleteContact;
+export default DeleteContainer;

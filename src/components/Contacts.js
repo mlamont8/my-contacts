@@ -1,9 +1,9 @@
 import React from 'react';
 import {Table, Col, Row, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Rebase  from 're-base'
-import ModalUpdateContainer from './ModalUpdateContainer';
-import ModalAdd from './ModalAdd';
-import DeleteContact from './DeleteContact';
+import FormContainer from '../containers/FormContainer';
+//import ModalAdd from './ModalAdd';
+import DeleteContainer from '../containers/DeleteContainer';
 import FontAwesome from 'react-fontawesome';
 
 
@@ -215,7 +215,7 @@ const sorted= this.state.contacts.sort(function(a,b)
 </Col>
 
 
-<ModalUpdateContainer
+<FormContainer
   currentContact={this.state.currentContact}
   currentIndex={this.state.currentIndex}
   showModal={this.state.showModal}
@@ -231,7 +231,7 @@ const sorted= this.state.contacts.sort(function(a,b)
 
 /> */}
 
-<DeleteContact
+<DeleteContainer
   currentContact={this.state.currentContact}
   deleteContact={this.state.deleteContact}
   deleteAlertDismiss={this.deleteAlertDismiss}

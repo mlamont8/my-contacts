@@ -20,7 +20,7 @@ const cancel = (
   <Tooltip id="cancelForm"><strong>Cancel</strong></Tooltip>
 );
 
-class AddContact extends React.Component {
+class ContactForm extends React.Component {
 
 constructor(props) {
   super(props);
@@ -162,7 +162,7 @@ if(!err){
   </FormGroup>
 
   <FormGroup controlId="Address">
-    <ControlLabel>Address</ControlLabel>
+    <ControlLabel>Street Address</ControlLabel>
     <FormControl
       type="text"
       placeholder="Address"
@@ -202,7 +202,9 @@ if(!err){
       onChange={this.changeValue}
     />
   </FormGroup>
+
 <Row>
+
   <OverlayTrigger placement="top" overlay={submit}>
   <FontAwesome
     onClick={this.props.closeModal}
@@ -213,6 +215,8 @@ if(!err){
     size="5x"
     style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
     />
+
+
   </OverlayTrigger>
   <OverlayTrigger placement="top" overlay={cancel}>
     <FontAwesome
@@ -234,4 +238,4 @@ if(!err){
 
 }
 
-export default AddContact;
+export default ContactForm;
