@@ -1,10 +1,11 @@
 import React from 'react';
-import {Table, Col, Row, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import {Table, Col, Row, Tooltip, OverlayTrigger, Panel } from 'react-bootstrap';
 import Rebase  from 're-base'
 import FormContainer from '../containers/FormContainer';
 import ViewContainer from '../containers/ViewContainer';
 import DeleteContainer from '../containers/DeleteContainer';
 import FontAwesome from 'react-fontawesome';
+import WeatherContainer from '../containers/WeatherContainer';
 
 
 
@@ -92,15 +93,17 @@ onUpdate(contact){
 console.log(contact)
 }
 
-closeModal() {
-  this.setState({
-    showModal: false,
-   });
-}
+
 
 closeAdd() {
   this.setState({
     addContact: false
+   });
+}
+
+closeModal() {
+  this.setState({
+    showModal: false,
    });
 }
 
@@ -233,9 +236,11 @@ const sorted= this.state.contacts.sort(function(a,b)
        </tr>
      )
    })}
-
  </tbody>
 </Table>
+<Panel>
+  <WeatherContainer />
+</Panel>
 </Col>
 
 
