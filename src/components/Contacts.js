@@ -152,6 +152,7 @@ closeModal() {
     });
   }
 
+
   render() {
     //Lets sort for display
 const sorted= this.state.contacts.sort(function(a,b)
@@ -172,7 +173,7 @@ const sorted= this.state.contacts.sort(function(a,b)
       />
     </OverlayTrigger>
 </Row>
-      <Table responsive striped bordered condensed hover>
+      <Table responsive striped bordered condensed hover className='mainTable'>
  <thead>
    <tr className="tableRow">
      <th></th>
@@ -198,9 +199,8 @@ const sorted= this.state.contacts.sort(function(a,b)
  <tbody>
    {sorted.map((data, index) => {
      return (
-       <tr key={data.key}
-         >
-         <td>Avatar</td>
+       <tr key={data.key}>
+
          <td>{data.name}</td>
          <td>{data.email}</td>
          <td>{data.phone}</td>
@@ -238,7 +238,7 @@ const sorted= this.state.contacts.sort(function(a,b)
    })}
  </tbody>
 </Table>
-<Panel>
+<Panel className="WeatherPanel">
   <WeatherContainer />
 </Panel>
 </Col>

@@ -35,6 +35,7 @@ constructor(props) {
     usstate: this.props.currentContact.usstate,
     zip: this.props.currentContact.zip
 
+
   };
   // make sure the "this" variable keeps its scope
   this.changeValue = this.changeValue.bind(this);
@@ -76,6 +77,7 @@ updateState(){
   //Remove from state and update firebase
   const array = this.props.contacts
   const index = this.props.index
+  console.log(array, index)
   array.splice(index, 1);
   //updates state
   this.setState({contacts: array });
@@ -90,9 +92,12 @@ updateState(){
 });
 }
 
-addData(e){
-  e.preventDefault();
-  if(!this.state.newContact){
+addData(){
+
+  const newEntry = this.props.newContact
+  console.log(newEntry)
+  if(newEntry !== true){
+    console.log('new contact false')
     this.updateState();
   }
 let newContact = {
@@ -103,6 +108,7 @@ let newContact = {
   city: this.state.city,
   usstate: this.state.usstate,
   zip: this.state.zip
+
 }
 
 this.setState({
@@ -113,6 +119,8 @@ this.setState({
   city: '',
   usstate: '',
   zip: ''
+
+
 })
 // push to firebase
  base.push('contacts', {
@@ -123,11 +131,11 @@ data: {
     address: newContact.address,
     city: newContact.city,
     usstate: newContact.usstate,
-    zip: newContact.zip
+    zip: newContact.zip,
+
 },
 then(err){
 if(!err){
-
   console.log('Successfully Added');
 }
 }
@@ -139,6 +147,7 @@ if(!err){
     return (
       <div>
       <Form onSubmit={this.addData}>
+
   <FormGroup controlId="Full Name">
     <ControlLabel>Full Name</ControlLabel>
     <FormControl
@@ -153,7 +162,7 @@ if(!err){
   <FormGroup controlId="Email Address">
     <ControlLabel>Email Address</ControlLabel>
     <FormControl
-      type="text"
+      type="email"
       placeholder="Email Address"
       name="email"
       value={this.state.email}
@@ -163,7 +172,7 @@ if(!err){
   <FormGroup controlId="Phone Number">
     <ControlLabel>Phone Number</ControlLabel>
     <FormControl
-      type="text"
+      type="tel"
       placeholder="Phone Number"
       name="phone"
       value={this.state.phone}

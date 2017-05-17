@@ -2,28 +2,26 @@ import React from 'react';
 import {Navbar} from 'react-bootstrap'
 import Contacts from '../components/Contacts';
 
-
 class MainContainer extends React.Component {
 
+  render() {
 
-    render() {
-
-      return (
-        <div>
+    return (
+      <div>
         <Navbar>
-  <Navbar.Header>
-    <Navbar.Brand>
-      <a href="#">My Contacts</a>
-    </Navbar.Brand>
-  </Navbar.Header>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href="#">My Contacts</a>
+            </Navbar.Brand>
+          </Navbar.Header>
 
-</Navbar>
+        </Navbar>
 
-          <Contacts />
+        <Contacts/>
 
-        </div>
-      );
-    }
-  };
+      </div>
+    );
+  }
+};
 
 export default MainContainer;

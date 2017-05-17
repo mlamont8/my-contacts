@@ -36,7 +36,7 @@ class WeatherInfo extends React.Component {
           <Well>
             <Col>
               <Row className='text-center'><p>Current Weather is:</p></Row>
-              <Row className='text-center'><p>{this.state.temp} &#176;</p></Row>
+              <Row className='text-center weather-text'><p>{this.state.temp} &#176;</p></Row>
             </Col>
           </Well>
         </div>

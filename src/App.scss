@@ -29,6 +29,9 @@ nav.navbar.navbar-default {
 .fa-plus-circle {
     color: $accent;
 }
+.mainTable{
+  border-radius: 25px;
+}
 .tableRow {
   background-color: $main-color;
   color: #fff;
@@ -44,4 +47,10 @@ nav.navbar.navbar-default {
 .fa-check-square-o,
 .fa-ban {
   color: $accent;
+}
+.WeatherPanel{
+  background-color: $main-color;
+}
+.weather-text{
+  font-size: 40px;
 }
