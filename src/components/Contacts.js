@@ -176,7 +176,7 @@ const sorted= this.state.contacts.sort(function(a,b)
       <Table responsive striped bordered condensed hover className='mainTable'>
  <thead>
    <tr className="tableRow">
-     <th></th>
+     
      <th>  <FontAwesome
              className='fa-user'
              name='user'
