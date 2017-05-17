@@ -26,18 +26,20 @@ constructor(props) {
   super(props);
   this.state = {
     contacts: [],
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    usstate: '',
-    zip: ''
+    newContactState: [],
+    name: this.props.currentContact.name,
+    email: this.props.currentContact.email,
+    phone: this.props.currentContact.phone,
+    address: this.props.currentContact.address,
+    city: this.props.currentContact.city,
+    usstate: this.props.currentContact.usstate,
+    zip: this.props.currentContact.zip
 
   };
   // make sure the "this" variable keeps its scope
   this.changeValue = this.changeValue.bind(this);
   this.addData = this.addData.bind(this);
+  this.updateState = this.updateState.bind(this);
 
 }
 
@@ -51,23 +53,9 @@ this.ref = base.syncState('contacts', {
     this.setState({loading:false})
   }
 })
+
 }
 
-componentWillReceiveProps(nextProps) {
-  // Check to prevent an unneeded render
-  if (nextProps.name !== this.state.name) {
-    this.setState({
-      name: this.state.name,
-      email: this.state.email,
-      phone: this.state.phone,
-      address: this.state.address,
-      city: this.state.city,
-      usstate: this.state.usstate,
-      zip: this.state.zip
-
-    });
-  }
-}
 
 componentWillUnmount(){
 // Remove Binding for Firebase when unmounted
@@ -84,8 +72,29 @@ changeValue(e) {
   })
 }
 
+updateState(){
+  //Remove from state and update firebase
+  const array = this.props.contacts
+  const index = this.props.index
+  array.splice(index, 1);
+  //updates state
+  this.setState({contacts: array });
+  //syncs with firebase
+  base.syncState(`contacts`, {
+    context: this,
+    state: 'contacts',
+    asArray: true,
+    then(){
+      this.setState({loading:false})
+    }
+});
+}
+
 addData(e){
   e.preventDefault();
+  if(!this.state.newContact){
+    this.updateState();
+  }
 let newContact = {
   name: this.state.name,
   email: this.state.email,
@@ -95,6 +104,7 @@ let newContact = {
   usstate: this.state.usstate,
   zip: this.state.zip
 }
+
 this.setState({
   name: '',
   email: '',
@@ -104,16 +114,16 @@ this.setState({
   usstate: '',
   zip: ''
 })
-
+// push to firebase
  base.push('contacts', {
 data: {
     name: newContact.name,
     email: newContact.email,
     phone: newContact.phone,
     address: newContact.address,
-    city: this.state.city,
-    usstate: this.state.usstate,
-    zip: this.state.zip
+    city: newContact.city,
+    usstate: newContact.usstate,
+    zip: newContact.zip
 },
 then(err){
 if(!err){
@@ -207,7 +217,7 @@ if(!err){
 
   <OverlayTrigger placement="top" overlay={submit}>
   <FontAwesome
-    onClick={this.props.closeModal}
+    onClick={this.addData}
     className='fa-check-square-o'
     name='submit'
     fixedWidth={true}

@@ -1,6 +1,8 @@
 import React from 'react';
-import {Navbar} from 'react-bootstrap'
+import {Navbar, Row, Col} from 'react-bootstrap'
 import Contacts from '../components/Contacts';
+import Time from './TimeContainer';
+import Weather from './WeatherContainer'
 
 
 class MainContainer extends React.Component {
@@ -18,7 +20,14 @@ class MainContainer extends React.Component {
   </Navbar.Header>
 
 </Navbar>
+    <Row>
           <Contacts />
+    </Row>
+    <Row>
+
+          <Col xs={3} xsOffset={3}><Weather /></Col>
+          <Col  xs={3}><Time /></Col>
+    </Row>
         </div>
       );
     }

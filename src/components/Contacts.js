@@ -2,7 +2,7 @@ import React from 'react';
 import {Table, Col, Row, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Rebase  from 're-base'
 import FormContainer from '../containers/FormContainer';
-//import ModalAdd from './ModalAdd';
+import ViewContainer from '../containers/ViewContainer';
 import DeleteContainer from '../containers/DeleteContainer';
 import FontAwesome from 'react-fontawesome';
 
@@ -50,7 +50,9 @@ class Contacts extends React.Component {
       addContact: false,
       currentContact: {},
       currentIndex: "",
-      deleteContact: false
+      deleteContact: false,
+      newContact: false,
+      showView: false
 
     };
     // make sure the "this" variable keeps its scope
@@ -60,6 +62,8 @@ class Contacts extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.deleteAlertShow  = this.deleteAlertShow.bind(this);
     this.deleteAlertDismiss  = this.deleteAlertDismiss.bind(this);
+    this.openView  = this.openView.bind(this);
+    this.closeView  = this.closeView.bind(this);
 
   }
 
@@ -82,11 +86,7 @@ componentWillUnmount(){
 base.removeBinding(this.ref);
 }
 
-addContact(){
-  this.setState({
-    addContact: true
-  })
-}
+
 
 onUpdate(contact){
 console.log(contact)
@@ -105,12 +105,36 @@ closeAdd() {
 }
 
   openModal(contact, idx) {
-    console.log(contact, idx)
       this.setState({
         showModal: true,
         currentContact: contact,
-        currentIndex: idx
+        currentIndex: idx,
+        newContact: false
        });
+  }
+
+  addContact(){
+    this.setState({
+      showModal: true,
+      newContact: true,
+      currentContact: []
+
+    })
+  }
+
+  openView(contact){
+    this.setState({
+      showView: true,
+      currentContact: contact
+
+    })
+  }
+
+  closeView(){
+    this.setState({
+      showView: false,
+
+    })
   }
 
   deleteAlertDismiss() {
@@ -180,7 +204,7 @@ const sorted= this.state.contacts.sort(function(a,b)
          <td>
            <OverlayTrigger placement="bottom" overlay={moreInfo}>
              <FontAwesome
-               onClick={this.openModal.bind(this, data, index)}
+               onClick={this.openView.bind(this, data)}
                className='fa-ellipsis-v'
                name='ellipsis'
                fixedWidth={true}
@@ -222,14 +246,17 @@ const sorted= this.state.contacts.sort(function(a,b)
   closeModal={this.closeModal}
   contacts={this.state.contacts}
   index={this.state.currentIndex}
+  newContact={this.state.newContact}
 
 />
 
-{/* <ModalAdd
-  showModal={this.state.addContact}
-  closeModal={this.closeModal}
+<ViewContainer
+  openView={this.openView}
+  closeView={this.closeView}
+  showView={this.state.showView}
+  currentContact={this.state.currentContact}
 
-/> */}
+/>
 
 <DeleteContainer
   currentContact={this.state.currentContact}
